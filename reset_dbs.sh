@@ -12,18 +12,26 @@ setup() {
 }
 
 make_repos() {
+    cd dbs
+
     cd writer
     dolt init
+    dolt config --local --add user.name "Max Hoffman"
+    dolt config --local --add user.email "max@dolthub.com"
     dolt remote add origin http://127.0.0.1:50051/test-org/test-repo
-    dolt remote add docker_origin http://remote:50051/test-org/test-repo
     dolt push -u origin main
-    #dolt config --local --add DOLT_REPLICATE_TO_REMOTE docker_origin
+    dolt remote remove origin
+    dolt remote add docker_origin http://remote:50051/test-org/test-repo
+    dolt config --local --add DOLT_REPLICATE_TO_REMOTE docker_origin
 
     cd ..
     dolt clone http://127.0.0.1:50051/test-org/test-repo reader
     cd reader
+    dolt config --local --add user.name "Max Hoffman"
+    dolt config --local --add user.email "max@dolthub.com"
+    dolt remote remove origin
     dolt remote add docker_origin http://remote:50051/test-org/test-repo
-    #dolt config --local --add DOLT_READ_REPLICA_REMOTE docker_origin
+    dolt config --local --add DOLT_READ_REPLICA_REMOTE docker_origin
 }
 
 cleanup() {
