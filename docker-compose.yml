@@ -1,0 +1,56 @@
+# todo:
+#  - server1 at port x1 for writes
+#  - server2 at port x2 for reads
+#  - mounted common remote folder
+#  - server1 pushes on write to remote
+#  - server2 pulls on read from remote
+version: "3.9"
+services:
+  remote:
+    build: ./remotesrv
+    ports:
+      - "50051:50051"
+      - "5000:5000"
+    expose:
+      - "50051"
+      - "5000"
+    volumes:
+      - type: bind
+        source: ./dbs/remote
+        target: /var/remotes
+    networks:
+      - backend
+  reader:
+    depends_on:
+      - "remote"
+    build: .
+    ports:
+      - "3307:3306"
+    expose:
+      - "3306"
+    working_dir: /var/dbs/reader
+    volumes:
+      - type: bind
+        source: ./dbs/reader/.dolt
+        target: /var/dbs/reader/.dolt
+    networks:
+      - backend
+  writer:
+    depends_on:
+      - "remote"
+    build: .
+    ports:
+      - "3308:3306"
+    expose:
+      - "3306"
+    working_dir: /var/dbs/writer
+    volumes:
+      - type: bind
+        source: ./dbs/writer/.dolt
+        target: /var/dbs/writer/.dolt
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
