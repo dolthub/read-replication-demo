@@ -1,9 +1,3 @@
-# todo:
-#  - server1 at port x1 for writes
-#  - server2 at port x2 for reads
-#  - mounted common remote folder
-#  - server1 pushes on write to remote
-#  - server2 pulls on read from remote
 version: "3.9"
 services:
   remote:
@@ -20,7 +14,7 @@ services:
         target: /var/remotes
     networks:
       - backend
-  reader:
+  follower:
     depends_on:
       - "remote"
     build: .
@@ -28,14 +22,14 @@ services:
       - "3307:3306"
     expose:
       - "3306"
-    working_dir: /var/dbs/reader
+    working_dir: /var/dbs/follower
     volumes:
       - type: bind
-        source: ./dbs/reader/.dolt
-        target: /var/dbs/reader/.dolt
+        source: ./dbs/follower/.dolt
+        target: /var/dbs/follower/.dolt
     networks:
       - backend
-  writer:
+  leader:
     depends_on:
       - "remote"
     build: .
@@ -43,11 +37,11 @@ services:
       - "3308:3306"
     expose:
       - "3306"
-    working_dir: /var/dbs/writer
+    working_dir: /var/dbs/leader
     volumes:
       - type: bind
-        source: ./dbs/writer/.dolt
-        target: /var/dbs/writer/.dolt
+        source: ./dbs/leader/.dolt
+        target: /var/dbs/leader/.dolt
     networks:
       - backend
 
