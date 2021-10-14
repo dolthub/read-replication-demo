@@ -2,6 +2,18 @@
 
 This is a docker-compose setup to test Dolt read replication.
 
+The blog post detailing this tutorial will be release Oct 20th 2021:
+
+https://www.dolthub.com/blog/2021-10-20-read-replication/
+
+![max-read-replication](https://user-images.githubusercontent.com/18337807/137333167-56404106-ab4d-4435-a6ac-9c7ce8a4a19a.png)
+
+## Outline:
+
+- [Configuration](#configuration)
+- [Setup](#setup)
+- [Usage](#usage)
+
 ## Configuration
 
 Leader pushes to replication remote on Dolt commit:
@@ -44,6 +56,8 @@ Run `docker-compose.yml`:
 ```
 $ docker-compose up
 ```
+
+## Usage
 
 Commit data to the leader:
 
