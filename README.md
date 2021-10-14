@@ -42,13 +42,13 @@ $ ./reset_dbs.sh
 Run `docker-compose.yml`:
 
 ```
-$ docker-compsoe up
+$ docker-compose up
 ```
 
 Commit data to the leader:
 
 ```
-$ mysql --user root --host=0.0.0.0 -P 3307 leader
+$ mysql --user root --host=0.0.0.0 -P 3308 leader
 mysql> create table t1 (a int primary key);
 Empty set (0.09 sec)
 
@@ -64,7 +64,7 @@ mysql> select dolt_commit('-am', 'cm');
 Read data from follower:
 
 ```
-$ mysql --user root --host=0.0.0.0 -P 3308 follower
+$ mysql --user root --host=0.0.0.0 -P 3307 follower
 mysql> show tables:
 +-------+
 | Table |
