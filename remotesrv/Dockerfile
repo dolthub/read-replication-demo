@@ -1,4 +1,6 @@
-FROM dolt
+ FROM golang:1.17
+
+RUN go get github.com/dolthub/dolt/go/utils/remotesrv
 
 WORKDIR /var/remotes
 EXPOSE 50051
