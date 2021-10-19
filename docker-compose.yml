@@ -18,6 +18,7 @@ services:
     depends_on:
       - "remote"
     build: .
+    command: ["sql-server", '--read-only',  "-l", "trace", "--host", "0.0.0.0"]
     ports:
       - "3307:3306"
     expose:
