@@ -14,7 +14,7 @@ services:
         target: /var/remotes
     networks:
       - backend
-  follower:
+  replica:
     depends_on:
       - "remote"
     build: .
@@ -23,14 +23,14 @@ services:
       - "3307:3306"
     expose:
       - "3306"
-    working_dir: /var/dbs/follower
+    working_dir: /var/dbs/replica
     volumes:
       - type: bind
-        source: ./dbs/follower/.dolt
-        target: /var/dbs/follower/.dolt
+        source: ./dbs/replica/.dolt
+        target: /var/dbs/replica/.dolt
     networks:
       - backend
-  leader:
+  source:
     depends_on:
       - "remote"
     build: .
@@ -38,11 +38,11 @@ services:
       - "3308:3306"
     expose:
       - "3306"
-    working_dir: /var/dbs/leader
+    working_dir: /var/dbs/source
     volumes:
       - type: bind
-        source: ./dbs/leader/.dolt
-        target: /var/dbs/leader/.dolt
+        source: ./dbs/source/.dolt
+        target: /var/dbs/source/.dolt
     networks:
       - backend
 

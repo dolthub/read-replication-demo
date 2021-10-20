@@ -5,7 +5,7 @@ remotesrv_pid=
 setup() {
     rm -rf dbs
 
-    mkdir -p dbs/{leader,remote}
+    mkdir -p dbs/{source,remote}
 
     remotesrv --http-port 5000 --dir ./dbs/remote &
     remotesrv_pid=$!
@@ -14,7 +14,7 @@ setup() {
 make_repos() {
     cd dbs
 
-    cd leader
+    cd source
     dolt init
     dolt config --local --add user.name "Max Hoffman"
     dolt config --local --add user.email "max@dolthub.com"
@@ -25,8 +25,8 @@ make_repos() {
     dolt config --local --add DOLT_REPLICATE_TO_REMOTE docker_origin
 
     cd ..
-    dolt clone http://localhost:50051/test-org/test-repo follower
-    cd follower
+    dolt clone http://localhost:50051/test-org/test-repo replica
+    cd replica
     dolt config --local --add user.name "Max Hoffman"
     dolt config --local --add user.email "max@dolthub.com"
     dolt remote remove origin
