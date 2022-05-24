@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM redhat/ubi8
 
 RUN yum install -y curl \
     && curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash \
